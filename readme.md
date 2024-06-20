@@ -19,7 +19,6 @@ The Weather Dashboard utilizes Node.js and Express.js as the backend framework, 
 - The favorite cities are stored using a JSON server.
 - The platform implements CRUD operations for managing favorite cities.
 
-
 ## Routes
 
 ### Weather Routes (/weather)
@@ -33,6 +32,12 @@ The Weather Dashboard utilizes Node.js and Express.js as the backend framework, 
 - **PUT/favorites/:id:** Update any city from the list of favorites.
 - **DELETE/favorites/:id:** Remove a city from the list of favorites.
 
+  
+### API Documentation
+
+For detailed API documentation, visit the Postman documentation:
+
+[Weather Dashboard API Documentation](https://documenter.getpostman.com/view/27916984/2sA3XTg14D)
 
 ## Getting Started
 
@@ -42,49 +47,38 @@ To set up the Student Internship Platform locally, follow these steps:
 
 ```
 git clone https://github.com/Ankitverma1229/Weather-app.git
-
 ```
 
 2. Install dependencies:
 
 ```
-
 npm install
-
 ```
-
 
 3. Add .env file with your details in backend
 
 ```
-
 PORT = ****
 DATABASE_URL = mongodb+srv:**\***
-
 ```
 
 4. Add .env file with your details in frontend
 
 ```
-
 REACT_APP_BACKEND_BASE_URL = **\*\*\***
-
 ```
-
 
 4. Start the application for backend:
 
 ```
+npm run dev || nodemon server.js
+```
 
-    npm run dev || nodemon server.js
-
-````
 5. Start the application for frontend:
 
- ```
- npm run start
-
-````
+```
+npm run start
+```
 
 ## Technology Stack
 
@@ -93,7 +87,6 @@ REACT_APP_BACKEND_BASE_URL = **\*\*\***
 - **ORM Tool:** Mongoose
 - **Frontend :** React.js, Tailwind CSS
 - **Weather API:** OpenWeatherMap API
-- ** 
 
 ## Contact
 
