@@ -8,7 +8,7 @@ import { connectDb } from "./config/connectDB.js";
 dotenv.config();
 connectDb();
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 4200;
 const app = express();
 const server = http.createServer(app);
 

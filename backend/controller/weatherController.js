@@ -1,5 +1,6 @@
 import axios from "axios";
 import FavouriteCity from "../models/favouriteCities.js";
+import UserCount from "../models/userModel.js"; // Import the user count model
 
 export const getWeatherDetails = async (req, res) => {
     const { location } = req.params;
@@ -12,6 +13,12 @@ export const getWeatherDetails = async (req, res) => {
         const response = await axios.get(`https://api.openweathermap.org/data/2.5/forecast?q=${location}&appid=e67718755462556fa67b7b78ea430f3d`);
 
         if (response) {
+            await UserCount.findOneAndUpdate(
+                { location: location },
+                { $inc: { count: 1 } },
+                { upsert: true, new: true }
+            );
+
             return res.status(200).json(response.data);
         } else {
             return res.status(400).json({ error: "Enter a correct location." });
@@ -28,13 +35,13 @@ export const createFavouriteCity = async (req, res) => {
         const { city } = req.body;
         const existingCity = await FavouriteCity.findOne({ city });
         if (existingCity) {
-            return res.status(400).json({ message: "City is already in favourites" });
+            return res.status(400).json({ error: "City is already in favourites" });
         }
         const newCity = new FavouriteCity({ city });
         await newCity.save();
         res.status(201).json({message: "City added to favourites", city:newCity});
     } catch (err) {
-        res.status(400).json({ message: err.message });
+        res.status(400).json({ error: err.message });
     }
 };
 
@@ -43,17 +50,17 @@ export const getFavouriteCities = async (req, res) => {
         const cities = await FavouriteCity.find();
         res.json(cities);
     } catch (err) {
-        res.status(500).json({ message: err.message });
+        res.status(500).json({ error: err.message });
     }
 };
 
 export const getFavouriteCityById = async (req, res) => {
     try {
         const city = await FavouriteCity.findById(req.params.id);
-        if (!city) return res.status(404).json({ message: 'City not found' });
+        if (!city) return res.status(404).json({ error: 'City not found' });
         res.json(city);
     } catch (err) {
-        res.status(500).json({ message: err.message });
+        res.status(500).json({ error: err.message });
     }
 };
 
@@ -65,20 +72,20 @@ export const updateFavouriteCityById = async (req, res) => {
             { city },
             { new: true }
         );
-        if (!updatedCity) return res.status(404).json({ message: 'City not found' });
+        if (!updatedCity) return res.status(404).json({ error: 'City not found' });
         res.json({message: "City updated successfully",updatedCity});
     } catch (err) {
-        res.status(400).json({ message: err.message });
+        res.status(400).json({ error: err.message });
     }
 };
 
 export const deleteFavouriteCityById = async (req, res) => {
     try {
         const city = await FavouriteCity.findByIdAndDelete(req.params.id);
-        if (!city) return res.status(404).json({ message: 'City not found' });
+        if (!city) return res.status(404).json({ error: 'City not found' });
         res.json({ message: 'City deleted' });
     } catch (err) {
-        res.status(500).json({ message: err.message });
+        res.status(500).json({ error: err.message });
     }
 };
 
